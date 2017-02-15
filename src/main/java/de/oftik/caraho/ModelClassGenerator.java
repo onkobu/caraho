@@ -1,4 +1,4 @@
-package antlr.struct;
+package de.oftik.caraho;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,8 +12,8 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
-import antlr.struct.TargetStructure.Directory;
-import antlr.struct.TargetStructure.ModelClassProperty;
+import de.oftik.caraho.TargetStructure.Directory;
+import de.oftik.caraho.TargetStructure.ModelClassProperty;
 
 /**
  * Generates the model class and all necessary (service-) classes.

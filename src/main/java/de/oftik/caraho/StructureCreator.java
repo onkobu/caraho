@@ -1,4 +1,4 @@
-package antlr.struct;
+package de.oftik.caraho;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import antlr.struct.MetaStructureLexer;
+import antlr.struct.MetaStructureListener;
+import antlr.struct.MetaStructureParser;
 import antlr.struct.MetaStructureParser.DocumentContext;
 
 public class StructureCreator {

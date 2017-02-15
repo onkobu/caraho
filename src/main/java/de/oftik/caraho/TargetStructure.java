@@ -1,4 +1,4 @@
-package antlr.struct;
+package de.oftik.caraho;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import antlr.struct.types.Currency;
+import de.oftik.caraho.types.Currency;
 
 /**
  * Adapter between the listener/ parser-world and the file system/ application.

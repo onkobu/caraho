@@ -1,4 +1,4 @@
-package antlr.struct;
+package de.oftik.caraho;
 
 import java.io.File;
 import java.util.Date;
@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import antlr.struct.MetaStructureListener;
 import antlr.struct.MetaStructureParser.AbstractDefContext;
 import antlr.struct.MetaStructureParser.AggregateFunctionContext;
 import antlr.struct.MetaStructureParser.AttributeContext;
@@ -23,7 +24,7 @@ import antlr.struct.MetaStructureParser.FunctionListContext;
 import antlr.struct.MetaStructureParser.InterfaceAliasContext;
 import antlr.struct.MetaStructureParser.ScalarFunctionContext;
 import antlr.struct.MetaStructureParser.SetContext;
-import antlr.struct.types.Currency;
+import de.oftik.caraho.types.Currency;
 
 final class StructureListener implements MetaStructureListener {
 	private final File root;
