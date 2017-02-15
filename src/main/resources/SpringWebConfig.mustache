@@ -1,0 +1,38 @@
+package {{rootPackage}}.{{projectName}};
+
+import java.util.Collection;
+import java.util.List;
+
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module.Feature;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+/**
+ * Main configuration class. Only use @EnableWebMvc if it is necessary to kill auto configuration.
+ */
+@Configuration
+@ComponentScan({ "{{rootPackage}}.{{projectName}}" })
+public class SpringWebConfig extends WebMvcConfigurerAdapter {
+
+	/**
+	 * Enables Jackson's HibernateN module to serialize also lazy initialized/ attached entities. 
+	 */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        Hibernate5Module module = new Hibernate5Module();
+        module.disable(Feature.USE_TRANSIENT_ANNOTATION);
+        module.enable(Feature.FORCE_LAZY_LOADING);
+
+        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+        builder.modulesToInstall(module);
+
+        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+    }
+}

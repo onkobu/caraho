@@ -1,0 +1,43 @@
+<!doctype html>
+<!--
+  Basic HTML-page for Angular-backend-interaction. A straightforward controller requests all entities of one
+  type and provides an add-function for further data editing.
+-->
+<html ng-app="caraho{{modelName}}">
+	<head>
+		<title>Caraho {{modelName}}</title>
+		<!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    	<script src="{{modelNameL}}.js"></script>
+	</head>
+
+	<body ng-controller="{{modelNameL}}ManagerController as ctrl">
+	
+	  <form name="{{modelNameL}}ManagerController.addForm" 
+	        ng-submit="ctrl.add{{modelName}}()">
+	 <table>
+{{#attributeList}}
+     <tr>
+     <td>{{attributeName}}:</td>
+     <td>
+     <input type="text" ng-model="ctrl.{{modelNameL}}{{aattributeName}}"  size="30"
+		  placeholder="add new machine {{attributeName}} here">
+	 </td>
+	</tr>
+{{/attributeList}}
+		  </table>
+	    <input class="btn-primary" type="submit" value="add">
+	  </form>
+      
+	  <ul>
+	   <li ng-repeat="{{modelNameL}} in {{modelNameL}}s">
+	   {{=<% %>=}}
+  	        <span>{{<%modelNameL%>.id}}</span>
+<%#attributeList%>  	        
+	        , <span>{{<%modelNameL%>.<%attributeName%>}}</span>
+<%/attributeList%>
+	   <%={{ }}=%>
+	   </li>
+	  </ul>
+	</body>
+</html>

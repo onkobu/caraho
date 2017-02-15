@@ -1,0 +1,87 @@
+package {{modelPackage}};
+
+// TODO: Let this depend on attribute/ function list
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+// TODO: Let this depend on attribute list
+import javax.persistence.OneToMany;
+
+{{#attributeList}}
+{{#attributeImport}}
+import {{attributeImport}};
+{{/attributeImport}}
+{{/attributeList}}
+
+/**
+ * (JPA-) Entity class.
+ */
+@Entity
+public class {{modelName}} {
+  @Id
+  @GeneratedValue
+  private long id;
+  
+{{#attributeList}}
+  private {{attributeType}} {{attributeName}};
+{{/attributeList}}
+
+{{#setAttributeList}}
+  @OneToMany
+  private List<{{attributeType}}> {{attributeName}};
+  
+{{/setAttributeList}}
+
+  public {{modelName}}() {
+  	super();
+  }
+
+  public {{modelName}}({{modelName}} other) {
+  	super();
+{{#attributeList}}
+	this.{{attributeName}}=other.{{attributeName}};
+{{/attributeList}}
+  }
+  
+  public long getId() {
+    return id;
+  }
+  
+{{#attributeList}}
+  public {{attributeType}} get{{aattributeName}}() {
+    return {{attributeName}};
+  }
+  
+{{/attributeList}}
+
+{{#setAttributeList}}
+  public List<{{attributeType}}> get{{aattributeName}}s() {
+  	return {{attributeName}};
+  }
+  
+{{/setAttributeList}}
+
+  public void setId(long id) {
+    this.id=id;
+  }
+  
+{{#attributeList}}
+  public void set{{aattributeName}}({{attributeType}} {{attributeName}}) {
+    this.{{attributeName}}={{attributeName}};
+  }
+  
+{{/attributeList}}
+
+{{#setAttributeList}}
+  public void set{{aattributeName}}s(List<{{attributeType}}> {{attributeName}}) {
+  	this.{{attributeName}}={{attributeName}};
+  }
+  
+{{/setAttributeList}}
+
+{{#functionList}}
+  //public {{name}}
+{{/functionList}}
+}

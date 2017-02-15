@@ -1,0 +1,15 @@
+package {{modelPackage}};
+
+{{#attributeList}}
+{{#attributeImport}}
+import {{attributeImport}};
+{{/attributeImport}}
+{{/attributeList}}
+
+public interface {{modelName}} {
+
+{{#attributeList}}
+  {{attributeType}} get{{aattributeName}}();
+  
+{{/attributeList}}
+}

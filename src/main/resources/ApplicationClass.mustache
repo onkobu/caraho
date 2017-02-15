@@ -1,0 +1,36 @@
+package {{rootPackage}}.{{projectName}};
+
+import {{rootPackage}}.{{projectName}}.model.Machine;
+import {{rootPackage}}.{{projectName}}.model.MachineRepository;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+/**
+ * Starting point for your app's runtime.
+ */
+@SpringBootApplication
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class);
+	}
+	
+	@Bean
+	public CommandLineRunner demo(MachineRepository repository) {
+		return (args) -> {
+			// save a couple of customers
+			Machine m=new Machine();
+			m.setName("first machine");
+			repository.save(m);
+			m=new Machine();
+			m.setName("second machine");
+			repository.save(m);
+			m=new Machine();
+			m.setName("last machine");
+			repository.save(m);
+		};
+	}
+}

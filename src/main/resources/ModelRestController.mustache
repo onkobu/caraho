@@ -1,0 +1,48 @@
+package {{modelPackage}};
+
+import java.net.URI;
+import java.util.Collection;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ * Provides REST-Endpoints for a single entity.
+ */
+@RestController
+@RequestMapping("/rest/{{modelNameL}}")
+public class {{modelName}}RestController {
+	private final {{modelName}}Repository {{modelNameL}}Repository;
+	
+	@Autowired
+	public {{modelName}}RestController({{modelName}}Repository {{modelNameL}}Repository) {
+		this.{{modelNameL}}Repository={{modelNameL}}Repository;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public Collection<{{modelName}}> read{{modelName}}s() {
+		return {{modelNameL}}Repository.findAll();
+	}
+	
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	public {{modelName}} read{{modelName}}s(@PathVariable("id") long id) {
+		return {{modelNameL}}Repository.getOne(id);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<?> add(@RequestBody {{modelName}} input) {
+		{{modelName}} result = {{modelNameL}}Repository.save(new {{modelName}}(input));
+
+		URI location = ServletUriComponentsBuilder
+			.fromCurrentRequest().path("/{id}")
+			.buildAndExpand(result.getId()).toUri();
+
+		return ResponseEntity.created(location).build();
+	}
+}

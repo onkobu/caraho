@@ -1,0 +1,17 @@
+context marep
+
+Template issue has attributes: doneAt as dateTime, hourRate as currency.
+
+A machine has attributes: name as shortText, manufactured as dateTime. belongs to customer
+						
+A customer has attributes: name as shortText, street as shortText, zipCode as shortText.
+
+A task has attributes: minutes as number, description as shortText.
+
+A material has attributes: description as shortText, partNumber as shortText, price as currency.
+
+A repair is a issue
+	has attributes: set of materials, set of tasks, doneAt as dateTime
+	and functions: timeSpent as sum(tasks.minute), materialCost as sum(material.price), laborCost as multiply(timeSpent,hourRate).
+	
+A maintenance is a issue has attributes: set of tasks, doneAt as dateTime.

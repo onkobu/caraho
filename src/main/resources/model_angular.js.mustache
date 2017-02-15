@@ -1,0 +1,53 @@
+/*
+ * Defines a controller for a single domain object. Provides findAll- and add-functions.
+ */
+var {{modelNameL}}ManagerModule = angular.module('caraho{{modelName}}', []);
+
+
+{{modelNameL}}ManagerModule.controller('{{modelNameL}}ManagerController', function ($scope,$http) {
+  var ctrl=this;
+  var urlBase="http://localhost:8080/rest";
+
+  $http.defaults.headers.post["Content-Type"] = "application/json";
+
+
+    function findAll{{modelName}}s() {
+        $http.get(urlBase + '/{{modelNameL}}').
+            then(function (data) {
+                $scope.{{modelNameL}}s=data.data;
+            });
+    }
+
+
+ ctrl.add{{modelName}} = function add{{modelName}}() {
+  if(ctrl.{{modelNameL}}Name==""){
+   alert("Insufficient Data! Please provide values for task name, description, priortiy and status");
+  }
+
+  else{
+
+   $http.post(urlBase + '/{{modelNameL}}', {
+{{#attributeList}}   
+             {{attributeName}}: ctrl.{{modelNameL}}{{aattributeName}},
+{{/attributeList}}
+         }).
+
+    then(function(response) {
+
+    alert("{{modelName}} added");
+{{#attributeList}}   
+             ctrl.{{modelNameL}}{{aattributeName}}="";
+{{/attributeList}}
+
+             var newTaskUri = response.headers()["location"];
+
+             console.log("Might be good to GET " + newTaskUri + " and append the task.");
+             findAll{{modelName}}s();
+      });
+
+  }
+
+ };
+     findAll{{modelName}}s();
+
+});
