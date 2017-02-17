@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 // TODO: Let this depend on attribute list
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 {{#attributeList}}
 {{#attributeImport}}
@@ -27,6 +28,11 @@ public class {{modelName}} {
 {{#attributeList}}
   private {{attributeType}} {{attributeName}};
 {{/attributeList}}
+
+{{#masterRefList}}
+  @OneToOne
+  private {{referenceType}} {{attributeName}};
+{{/masterRefList}}
 
 {{#setAttributeList}}
   @OneToMany
@@ -56,6 +62,13 @@ public class {{modelName}} {
   
 {{/attributeList}}
 
+{{#masterRefList}}
+  public {{referenceType}} get{{aattributeName}}() {
+    return {{attributeName}};
+  }
+  
+{{/masterRefList}}
+
 {{#setAttributeList}}
   public List<{{attributeType}}> get{{aattributeName}}s() {
   	return {{attributeName}};
@@ -73,6 +86,13 @@ public class {{modelName}} {
   }
   
 {{/attributeList}}
+
+{{#masterRefList}}
+  public void set{{aattributeName}}({{referenceType}} {{attributeName}}) {
+    this.{{attributeName}}={{attributeName}};
+  }
+  
+{{/masterRefList}}
 
 {{#setAttributeList}}
   public void set{{aattributeName}}s(List<{{attributeType}}> {{attributeName}}) {

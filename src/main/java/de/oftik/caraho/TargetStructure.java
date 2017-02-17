@@ -10,7 +10,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -177,6 +176,43 @@ public class TargetStructure {
 		funcLst.add(new Function(name, operator, reference));
 	}
 
+	public void addBelongsTo(String className, String name) {
+		// could also be an element of the attribute list but requires special
+		// treatment on UI. So either marker for attribute or separate list.
+		List<MasterReference> mRefLst = (List<MasterReference>) modelMap.get(ModelClassProperty.masterRefList.name());
+		if (mRefLst == null) {
+			mRefLst = new ArrayList<>();
+			modelMap.put(ModelClassProperty.masterRefList.name(), mRefLst);
+		}
+		mRefLst.add(new MasterReference(className, name));
+	}
+
+	static class MasterReference {
+		private final String referenceType;
+		private final String attributeName;
+		private final String aattributeName;
+
+		public MasterReference(String className, String name) {
+			super();
+			this.referenceType = className;
+			this.attributeName = name;
+			this.aattributeName = StructureCreator.toClassName(attributeName);
+		}
+
+		public String getAattributeName() {
+			return aattributeName;
+		}
+
+		public String getReferenceType() {
+			return referenceType;
+		}
+
+		public String getAttributeName() {
+			return attributeName;
+		}
+
+	}
+
 	static class Function {
 		private final String name;
 		private final String operator;
@@ -223,7 +259,7 @@ public class TargetStructure {
 		public Attribute(Class<?> attributeType, String attributeName) {
 			super();
 			this.attributeName = attributeName;
-			this.aattributeName = attributeName.substring(0, 1).toUpperCase(Locale.ROOT) + attributeName.substring(1);
+			this.aattributeName = StructureCreator.toClassName(attributeName);
 			if (attributeType == Currency.class) {
 				this.attributeType = Integer.TYPE.getSimpleName();
 				attributeImport = null;
@@ -278,7 +314,12 @@ public class TargetStructure {
 
 		functionList,
 
-		setAttributeList;
+		setAttributeList,
+
+		/**
+		 * references of a detail back to its master.
+		 */
+		masterRefList;
 	}
 
 }

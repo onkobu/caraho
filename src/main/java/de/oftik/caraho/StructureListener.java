@@ -103,7 +103,6 @@ final class StructureListener implements MetaStructureListener {
 		pomGen.generate(targetStructure);
 		final SpringContextGenerator ctxGen = new SpringContextGenerator();
 		ctxGen.generate(targetStructure);
-		System.out.format("package %s;%n", ctx.NAME());
 	}
 
 	@Override
@@ -114,7 +113,7 @@ final class StructureListener implements MetaStructureListener {
 
 	@Override
 	public void enterBelongsTo(BelongsToContext ctx) {
-		System.out.format("\t%s %s; //ref%n", StructureCreator.toClassName(ctx.NAME()), ctx.NAME());
+		targetStructure.addBelongsTo(StructureCreator.toClassName(ctx.NAME()), ctx.NAME().getText());
 	}
 
 	@Override

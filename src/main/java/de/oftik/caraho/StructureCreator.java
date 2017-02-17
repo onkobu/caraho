@@ -35,7 +35,7 @@ public class StructureCreator {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		final File root = new File("/home/onkobu/projekte/structure/trunk/generated/");
+		final File root = new File("/home/onkobu/projekte/caraho-generated/");
 		// TODO: inherit attributes from template
 
 		try (InputStream strIn=Thread.currentThread().getContextClassLoader().getResourceAsStream("marep.structure");) {

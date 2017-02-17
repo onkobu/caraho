@@ -17,12 +17,33 @@ import de.oftik.caraho.TargetStructure.Directory;
 /**
  * The context is top level and creates the foundation like main-method and
  * basic Spring configuration.
- * 
+ *
  * @author onkobu
  *
  */
 public class SpringContextGenerator {
 	private static final Logger logger = Logger.getLogger(SpringContextGenerator.class.getName());
+
+	enum ConfigTemplate {
+		Application,
+
+		SpringWebConfig,
+
+		SwaggerConfig;
+
+		void processMustache(TargetStructure targetStructure, HashMap<String, Object> scopes) {
+			logger.info(String.format("writing %s class", name()));
+			try (Writer writer = new BufferedWriter(
+					new FileWriter(new File(targetStructure.getDirectory(Directory.SOURCE), name() + ".java")));) {
+				MustacheFactory mf = new DefaultMustacheFactory();
+				Mustache mustache = mf.compile(name() + ".mustache");
+				mustache.execute(writer, scopes);
+				writer.flush();
+			} catch (IOException e) {
+				logger.throwing(getClass().getSimpleName(), "generate", e);
+			}
+		}
+	}
 
 	public void generate(TargetStructure targetStructure) {
 		HashMap<String, Object> scopes = new HashMap<String, Object>();
@@ -30,34 +51,8 @@ public class SpringContextGenerator {
 		scopes.put("rootPackage", targetStructure.getRootPackage());
 		// scopes.put("feature", new Feature("Perfect!"));
 
-		writeApplicationClass(targetStructure, scopes);
-		writeSpringConfigClass(targetStructure, scopes);
-	}
-
-	private void writeApplicationClass(TargetStructure targetStructure, HashMap<String, Object> scopes) {
-		logger.info("writing Application class");
-		try (Writer writer = new BufferedWriter(
-				new FileWriter(new File(targetStructure.getDirectory(Directory.SOURCE), "Application.java")));) {
-			MustacheFactory mf = new DefaultMustacheFactory();
-			Mustache mustache = mf.compile("ApplicationClass.mustache");
-			mustache.execute(writer, scopes);
-			writer.flush();
-		} catch (IOException e) {
-			logger.throwing(getClass().getSimpleName(), "generate", e);
+		for (ConfigTemplate template : ConfigTemplate.values()) {
+			template.processMustache(targetStructure, scopes);
 		}
 	}
-
-	private void writeSpringConfigClass(TargetStructure targetStructure, HashMap<String, Object> scopes) {
-		logger.info("writing Configuration class");
-		try (Writer writer = new BufferedWriter(
-				new FileWriter(new File(targetStructure.getDirectory(Directory.SOURCE), "SpringWebConfig.java")));) {
-			MustacheFactory mf = new DefaultMustacheFactory();
-			Mustache mustache = mf.compile("SpringWebConfig.mustache");
-			mustache.execute(writer, scopes);
-			writer.flush();
-		} catch (IOException e) {
-			logger.throwing(getClass().getSimpleName(), "generate", e);
-		}
-	}
-
 }
