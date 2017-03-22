@@ -28,12 +28,19 @@ mvn spring-boot:run
 - validation
 
 ## Business Processes
+- actions cause state transition
+- based on BPMN
+- adapter/ plugin for Activiti 
 
 ## Rules
+- Exists- and All-Quantor logic
+- translation to Drools (=Open Source) or similar (JRules/ facade resp. plugin)
+- dependency check based on model
 
 ## Security
 - authentication
 - authorization
+- spring-security stack, flexible, standardized
 
 # Ideas
 - output grammar from backend
